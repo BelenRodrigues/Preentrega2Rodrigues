@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotiza con Nosotros | SeguroSmart</title>
+    <title>Cotizador de Seguros</title>
     <link rel="stylesheet" href="../css/estilo.css">
 </head>
 
@@ -28,34 +28,67 @@
     <section id="cta" class="cta">
         <div class="containercotizador1">
             <h2>Cotizador de Seguros de Vehículo</h2>
-            
+            <p>Completa el formulario y recibe las mejores ofertas en seguros.</p>
         </div>
     </section>
 
-    <section class="fondo-imagen">
-        <p>SeguroSmart</p>
+    <div class="containercotizador">
+        <h1> Empieza Tu Cotización Hoy</h1>
+        <form id="insuranceForm">
+            <fieldset>
+                <legend>Datos del Usuario</legend>
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" required>
+
+                <label for="email">Email:</label>
+                <input type="text" id="email" required>
+            </fieldset>
+
+            <fieldset>
+                <legend>Datos del Vehículo</legend>
+                <label for="marca">Marca:</label>
+                <select id="marca" required>
+                    <option value="" disabled selected>Seleccione una marca</option>
+                </select>
+
+                <label for="modelo">Modelo:</label>
+                <select id="modelo" required>
+                    <option value="" disabled selected>Seleccione un modelo</option>
+                </select>
+
+                <label for="año">Año:</label>
+                <input type="number" id="año" min="1900" max="2024" required>
+            </fieldset>
+
+            <button type="submit">Calcular Cotización</button>
+        </form>
+    </div>
+
+    <section>
+        <div class="result" id="result"></div>
+        <div class="error" id="error"></div>
     </section>
 
-
     <script src="../js/main.js"></script>
+
+    <footer>
+        <div class="redes-sociales">
+            <a href="https://www.instagram.com/" target="_blank"><img src="../img/instagram.png" alt="Instagram"></a>
+            <a href="https://www.facebook.com/?locale=es_LA" target="_blank"><img src="../img/facebook1.png" alt="Facebook"></a>
+            <a href="https://web.whatsapp.com/" target="_blank"><img src="../img/whatsapp.png" alt="WhatsApp"></a>
+        </div>
+
+        <div class="copyright-info">
+            <p>&copy; 2024 SeguroSmart. Todos los derechos reservados.</p>
+            <p>Para consultas o soporte, por favor contacta a: <a href="mailto:support@segurosmart.com">support@segurosmart.com</a></p>
+            <p>Atención personalizada en nuestra oficina: <br>
+                Av. 9 de Julio 1288, Piso 7, Oficina 110,
+                Ciudad Autónoma de Buenos Aires, Argentina.</p>
+        </div>
+    </footer>
 </body>
-
-<footer>
-    <div class="redes-sociales">
-        <a href="https://www.instagram.com/" target="_blank"><img src="../img/instagram.png" alt="Instagram"></a>
-        <a href="https://www.facebook.com/?locale=es_LA" target="_blank"><img src="../img/facebook1.png"
-                alt="Facebook"></a>
-        <a href="https://web.whatsapp.com/" target="_blank"><img src="../img/whatsapp.png" alt="WhatsApp"></a>
-    </div>
-
-    <div class="copyright-info">
-        <p>&copy; 2024 SeguroSmart. Todos los derechos reservados.</p>
-        <p>Para consultas o soporte, por favor contacta a: <a
-                href="mailto:support@segurosmart.com">support@segurosmart.com</a></p>
-        <p>Atención personalizada en nuestra oficina: <br>
-            Av. 9 de Julio 1288, Piso 7, Oficina 110,
-            Ciudad Autónoma de Buenos Aires, Argentina.</p>
-    </div>
-</footer>
 
 </html>

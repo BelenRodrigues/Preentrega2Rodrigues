@@ -194,6 +194,149 @@ nav a:hover {
     text-align: center;
 }
 
+
+/*COTIZADOR*/
+
+.containercotizador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.875rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Ajustar el tamaño del h1 */
+.containercotizador h1 {
+    font-size: 3.5rem; 
+    text-decoration: underline;
+    margin: 20px;
+    color: #003366;
+}
+
+/* Estilo para el contenedor del formulario */
+#insuranceForm {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; 
+    max-width: 600px; 
+    margin: 20px auto; 
+}
+
+/* Estilo para los fieldsets */
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #fff;
+}
+
+/* Estilo para los legend */
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    background-color: #f1f1f1;
+}
+
+/* Estilo para las etiquetas de los campos */
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"],
+input[type="number"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el botón de enviar */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Estilo para el botón al pasar el mouse sobre él */
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo para el contenedor de resultados */
+#result {
+    background-color: #ffffff; 
+    padding: 30px; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
+    width: 100%; 
+    max-width: 700px; 
+    margin: 20px auto; 
+    border: 1px solid #ddd; 
+}
+
+/* Estilo para el encabezado de resultados */
+#result h2 {
+    font-size: 1.8rem;
+    color: #003366; 
+    margin-bottom: 15px;
+    border-bottom: 3px solid #003366; 
+    padding-bottom: 10px;
+    text-align: center; 
+}
+
+/* Estilo para los resultados individuales */
+.result-item {
+    padding: 15px;
+    border-bottom: 1px solid #ddd; 
+    transition: background-color 0.3s; 
+}
+
+/* Efecto hover para resultados individuales */
+.result-item:hover {
+    background-color: #f1f1f1; 
+}
+
+/* Estilo para el mensaje de error dentro del contenedor de resultados */
+#error {
+    color: #ff0000; 
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Estilo adicional para el contenedor de resultados si hay múltiples cotizaciones */
+#result h3 {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #003366;
+    border-bottom: 2px solid #003366;
+    padding-bottom: 5px;
+    text-align: center; 
+}
+
+
+/* Estilo para el título de vehículos disponibles */
+#vehiculosDisponibles {
+    font-size: 1.75rem;
+    color: #003366;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-decoration: underline; /
+}
+
+
 /* Pie de Página */
 footer {
     display: flex;
@@ -226,28 +369,20 @@ footer {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 
 }
 
-/* Estilo para los íconos de redes sociales */
-.redes-sociales {
-    padding-top: 1.25rem;
-    display: flex;
-    justify-content: center; 
-    gap: 15px; 
-}
-
 /* Animación para los íconos de redes sociales */
 .redes-sociales img {
     width: 2.5rem;
-    height: 2.5rem; /* Tamaño ligeramente mayor */
+    height: 2.5rem; 
     padding: 5px;
-    border-radius: 50%; /* Bordes redondeados para los íconos */
+    border-radius: 50%; 
     transition: transform 0.3s, filter 0.3s, box-shadow 0.3s, background-color 0.3s;
-    background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Efecto de escala, rotación y cambio de fondo en los íconos */
 .redes-sociales img:hover {
-    transform: scale(1.2) rotate(15deg); /* Escala y rotación en hover */
-    filter: brightness(1.3); /* Aumenta el brillo */
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada */
-    background-color: rgba(255, 255, 255, 0.4); /* Fondo más brillante en hover */
+    transform: scale(1.2) rotate(15deg); 
+    filter: brightness(1.3);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4); 
+    background-color: rgba(255, 255, 255, 0.4); 
 }

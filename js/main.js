@@ -1,125 +1,180 @@
-// Array de modelos permitidos por marca
-const modelosPermitidos = {
-    Volkswagen: ['Up', 'Gol', 'Polo', 'Taos', 'Amarok', 'Ranger'],
-    Toyota: ['Etios', 'Yaris', 'Corolla', 'Corolla Cros', 'Hilux', 'SW4'],
-    Chevrolet: ['Onix', 'Civic', 'Cruze', 'Tracker'],
-    Ford: ['Fiesta', 'Focus', 'Ecosport'],
-    MercedesBenz: ['A-Class', 'C-Class', 'E-Class', 'S-Class', 'GLA', 'GLB', 'GLC', 'GLE'],
-    Audi: ['A1', 'A3', 'A4', 'A6', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8'],
-    Lexus: ['UX', 'NX', 'ES', 'LS', 'LC'],
-    Porsche: ['911', '718', 'Panamera', 'Macan', 'Taycan']
-};
+// Clase para gestionar los modelos permitidos
+class ModelosPermitidos {
+    constructor() {
+        this.modelos = {
+            Volkswagen: ['Up', 'Gol', 'Polo', 'Taos', 'Amarok', 'Ranger'],
+            Toyota: ['Etios', 'Yaris', 'Corolla', 'Corolla Cros', 'Hilux', 'SW4'],
+            Chevrolet: ['Onix', 'Civic', 'Cruze', 'Tracker'],
+            Ford: ['Fiesta', 'Focus', 'Ecosport'],
+            MercedesBenz: ['A-Class', 'C-Class', 'E-Class', 'S-Class', 'GLA', 'GLB', 'GLC', 'GLE'],
+            Audi: ['A1', 'A3', 'A4', 'A6', 'A8', 'Q2', 'Q3', 'Q5', 'Q7', 'Q8'],
+            Lexus: ['UX', 'NX', 'ES', 'LS', 'LC'],
+            Porsche: ['911', '718', 'Panamera', 'Macan', 'Taycan']
+        };
+    }
 
-// Listas de marcas
-const marcasLujo = ['MercedesBenz', 'Audi', 'Lexus', 'Porsche'];
-const marcasEconomicas = ['Toyota', 'Ford', 'Chevrolet', 'Volkswagen'];
+    esModeloValido(marca, modelo) {
+        const modelosMarca = this.modelos[capitalizar(marca)];
+        return modelosMarca && modelosMarca.includes(capitalizar(modelo));
+    }
 
-// Configuración de precios base
-const precioBase = 100000;
-
-// Función para obtener y capitalizar la entrada del usuario
-function obtenerEntrada(promptText) {
-    return prompt(promptText).trim();
+    obtenerModelos(marca) {
+        return this.modelos[capitalizar(marca)] || [];
+    }
 }
 
-// Función para validar los datos ingresados
+// Clase para gestionar las cotizaciones
+class Cotizacion {
+    constructor(nombre, apellido, marca, modelo, año) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.marca = capitalizar(marca);
+        this.modelo = capitalizar(modelo);
+        this.año = año;
+    }
+
+    calcularCoberturas(precioBase) {
+        const factorMarca = this.obtenerFactorMarca();
+        const factorAño = this.obtenerFactorAño();
+
+        return {
+            coberturaTerceros: precioBase * factorMarca * factorAño * 1.1,
+            coberturaBasica: precioBase * factorMarca * factorAño * 1.3,
+            coberturaTodoRiesgo: precioBase * factorMarca * factorAño * 1.6,
+        };
+    }
+
+    obtenerFactorMarca() {
+        const marcasLujo = ['MercedesBenz', 'Audi', 'Lexus', 'Porsche'];
+        const marcasEconomicas = ['Toyota', 'Ford', 'Chevrolet', 'Volkswagen'];
+
+        if (marcasLujo.includes(this.marca)) {
+            return 1.5; // Marca de lujo
+        } else if (marcasEconomicas.includes(this.marca)) {
+            return 0.8; // Marca económica
+        }
+        return 1; // Marca estándar
+    }
+
+    obtenerFactorAño() {
+        const añoActual = new Date().getFullYear();
+        const edadVehiculo = añoActual - this.año;
+
+        if (edadVehiculo < 5) return 1; // Vehículo nuevo
+        if (edadVehiculo <= 10) return 1.2; // Vehículo de edad media
+        return 1.5; // Vehículo antiguo
+    }
+}
+
+// Funciones auxiliares
+function capitalizar(texto) {
+    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
+}
+
+function mostrarResultado(cotizacion, coberturas) {
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = 
+        `<h2>Cotización para ${cotizacion.nombre} ${cotizacion.apellido}</h2>
+        <p>Marca: ${cotizacion.marca}</p>
+        <p>Modelo: ${cotizacion.modelo}</p>
+        <p>Año: ${cotizacion.año}</p>
+        <p>Cobertura Contra Terceros: $${coberturas.coberturaTerceros.toFixed(2)}</p>
+        <p>Cobertura Básica: $${coberturas.coberturaBasica.toFixed(2)}</p>
+        <p>Cobertura Todo Riesgo: $${coberturas.coberturaTodoRiesgo.toFixed(2)}</p>`;
+}
+
+function mostrarError(mensaje) {
+    const errorDiv = document.getElementById('error');
+    errorDiv.innerHTML = `<p>${mensaje}</p>`;
+}
+
+function guardarCotizacion(cotizacion, coberturas) {
+    const cotizacionesGuardadas = JSON.parse(localStorage.getItem('cotizaciones')) || [];
+    cotizacionesGuardadas.push({ ...cotizacion, ...coberturas });
+    localStorage.setItem('cotizaciones', JSON.stringify(cotizacionesGuardadas));
+}
+
+function mostrarCotizacionesGuardadas(nombre, apellido) {
+    const cotizacionesGuardadas = JSON.parse(localStorage.getItem('cotizaciones')) || [];
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML += `<h3>Cotizaciones Guardadas:</h3><ul>`;
+
+    // Filtrar cotizaciones que coinciden con el nombre y apellido
+    const cotizacionesFiltradas = cotizacionesGuardadas.filter(cot => {
+        return cot.nombre === nombre && cot.apellido === apellido;
+    });
+
+    if (cotizacionesFiltradas.length === 0) {
+        resultDiv.innerHTML += `<li>No hay cotizaciones guardadas para ${nombre} ${apellido}.</li>`;
+    } else {
+        cotizacionesFiltradas.forEach(cot => {
+            resultDiv.innerHTML += `<li>${cot.nombre} ${cot.apellido} - ${cot.marca} ${cot.modelo} (${cot.año})</li>`;
+        });
+    }
+    resultDiv.innerHTML += `</ul>`;
+}
+
+// Manejador del evento de envío del formulario
+document.getElementById('insuranceForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+    const marca = document.getElementById('marca').value;
+    const modelo = document.getElementById('modelo').value;
+    const año = parseInt(document.getElementById('año').value, 10);
+
+    const modelosPermitidos = new ModelosPermitidos();
+
+    if (!validarDatos(nombre, apellido, marca, modelo, año)) return;
+
+    if (!modelosPermitidos.esModeloValido(marca, modelo)) {
+        mostrarError('El modelo ingresado no es válido. Por favor, ingrese un modelo permitido.');
+        return;
+    }
+
+    const cotizacion = new Cotizacion(nombre, apellido, marca, modelo, año);
+    const coberturas = cotizacion.calcularCoberturas(100000); // precioBase
+
+    mostrarResultado(cotizacion, coberturas);
+    guardarCotizacion(cotizacion, coberturas);
+    mostrarCotizacionesGuardadas(nombre, apellido); // Pasar nombre y apellido para filtrar
+});
+
+// Función para validar datos ingresados
 function validarDatos(nombre, apellido, marca, modelo, año) {
-    if (!nombre || !apellido || !marca || !modelo || isNaN(año) || año < 1900 || año > 2024) {
-        alert('Por favor, complete todos los campos correctamente.');
-        console.log('Error: Datos incompletos o inválidos.');
+    if (!nombre || !apellido || !marca || !modelo || isNaN(año) || año < 1900 || año > new Date().getFullYear()) {
+        mostrarError('Por favor, complete todos los campos correctamente.');
         return false;
     }
     return true;
 }
 
-// Función para capitalizar la primera letra de un texto
-function capitalizar(texto) {
-    return texto.charAt(0).toUpperCase() + texto.slice(1).toLowerCase();
-}
+// Llenar el select de marcas al cargar la página
+document.addEventListener('DOMContentLoaded', function () {
+    const modelosPermitidos = new ModelosPermitidos();
+    const marcaSelect = document.getElementById('marca');
+    const modeloSelect = document.getElementById('modelo');
 
-// Función para validar el modelo ingresado usando un ciclo for
-function validarModelo(marca, modelo) {
-    const marcaCapitalizada = capitalizar(marca);
-    const modeloCapitalizado = capitalizar(modelo);
-
-    console.log(`Marca ingresada: ${marcaCapitalizada}`);
-    console.log(`Modelo ingresado: ${modeloCapitalizado}`);
-
-    if (modelosPermitidos[marcaCapitalizada]) {
-        const modelos = modelosPermitidos[marcaCapitalizada];
-        for (let i = 0; i < modelos.length; i++) {
-            if (modelos[i] === modeloCapitalizado) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-// Función para calcular el factor de marca
-function obtenerFactorMarca(marca) {
-    const marcaCapitalizada = capitalizar(marca);
-    if (marcasLujo.includes(marcaCapitalizada)) {
-        return 1.5; // Ejemplo: marca de lujo
-    } else if (marcasEconomicas.includes(marcaCapitalizada)) {
-        return 0.8; // Ejemplo: marca económica
-    }
-    return 1;
-}
-
-// Función para calcular el factor de año
-function obtenerFactorAño(año) {
-    const añoActual = new Date().getFullYear();
-    const edadVehiculo = añoActual - año;
-
-    if (edadVehiculo < 5) {
-        return 1; // Vehículo nuevo
-    } else if (edadVehiculo >= 5 && edadVehiculo <= 10) {
-        return 1.2; // Vehículo de edad media
-    } else {
-        return 1.5; // Vehículo antiguo
-    }
-}
-
-// Función principal para calcular y mostrar la cotización
-function calcularCotizacion() {
-    const nombre = obtenerEntrada('Ingrese su nombre:');
-    const apellido = obtenerEntrada('Ingrese su apellido:');
-    const marca = obtenerEntrada('Ingrese la marca del vehículo:');
-    const modelo = obtenerEntrada('Ingrese el modelo del vehículo:');
-    const año = parseInt(obtenerEntrada('Ingrese el año del vehículo:'), 10);
-
-    if (!validarDatos(nombre, apellido, marca, modelo, año)) return;
-
-    if (!validarModelo(marca, modelo)) {
-        alert('El modelo ingresado no es válido. Por favor, ingrese un modelo permitido.');
-        console.log('Error: Modelo ingresado no es válido.');
-        return;
+    // Llenar marcas
+    for (const marca in modelosPermitidos.modelos) {
+        const option = document.createElement('option');
+        option.value = marca;
+        option.textContent = marca;
+        marcaSelect.appendChild(option);
     }
 
-    const factorMarca = obtenerFactorMarca(marca);
-    const factorAño = obtenerFactorAño(año);
+    // Llenar modelos según la marca seleccionada
+    marcaSelect.addEventListener('change', function () {
+        modeloSelect.innerHTML = `<option value="" disabled selected>Seleccione un modelo</option>`; // Resetear opciones
 
-    // Calcular precios de cobertura
-    const coberturaTerceros = precioBase * factorMarca * factorAño * 1.1;
-    const coberturaBasica = precioBase * factorMarca * factorAño * 1.3;
-    const coberturaTodoRiesgo = precioBase * factorMarca * factorAño * 1.6;
+        const modelos = modelosPermitidos.obtenerModelos(marcaSelect.value);
+        modelos.forEach(modelo => {
+            const option = document.createElement('option');
+            option.value = modelo;
+            option.textContent = modelo;
+            modeloSelect.appendChild(option);
+        });
+    });
+});
 
-    // Mostrar el resultado
-    const resultado = `
-    Cotización para ${nombre} ${apellido}
-    Marca: ${capitalizar(marca)}
-    Modelo: ${capitalizar(modelo)}
-    Año: ${año}
-    Cobertura Contra Terceros: $${coberturaTerceros.toFixed(2)}
-    Cobertura Básica: $${coberturaBasica.toFixed(2)}
-    Cobertura Todo Riesgo: $${coberturaTodoRiesgo.toFixed(2)}
-    `;
-
-    alert(resultado);
-    console.log('Cotización generada:');
-    console.log(resultado);
-}
-
-// Ejecutar la función principal
-calcularCotizacion();

@@ -25,22 +25,22 @@ class ModelosPermitidos {
 
 // Clase para gestionar las cotizaciones
 class Cotizacion {
-    constructor(nombre, apellido, marca, modelo, año) {
+    constructor(nombre, apellido, marca, modelo, anio) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.marca = capitalizar(marca);
         this.modelo = capitalizar(modelo);
-        this.año = año;
+        this.anio = anio;
     }
 
     calcularCoberturas(precioBase) {
         const factorMarca = this.obtenerFactorMarca();
-        const factorAño = this.obtenerFactorAño();
+        const factorAnio = this.obtenerFactorAnio();
 
         return {
-            coberturaTerceros: precioBase * factorMarca * factorAño * 1.1,
-            coberturaBasica: precioBase * factorMarca * factorAño * 1.3,
-            coberturaTodoRiesgo: precioBase * factorMarca * factorAño * 1.6,
+            coberturaTerceros: precioBase * factorMarca * factorAnio * 1.1,
+            coberturaBasica: precioBase * factorMarca * factorAnio * 1.3,
+            coberturaTodoRiesgo: precioBase * factorMarca * factorAnio * 1.6,
         };
     }
 
@@ -56,9 +56,9 @@ class Cotizacion {
         return 1; // Marca estándar
     }
 
-    obtenerFactorAño() {
-        const añoActual = new Date().getFullYear();
-        const edadVehiculo = añoActual - this.año;
+    obtenerFactorAnio() {
+        const anioActual = new Date().getFullYear();
+        const edadVehiculo = anioActual - this.anio;
 
         if (edadVehiculo < 5) return 1; // Vehículo nuevo
         if (edadVehiculo <= 10) return 1.2; // Vehículo de edad media
@@ -73,11 +73,11 @@ function capitalizar(texto) {
 
 function mostrarResultado(cotizacion, coberturas) {
     const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = 
-        `<h2>Cotización para ${cotizacion.nombre} ${cotizacion.apellido}</h2>
+    resultDiv.innerHTML = `
+        <h2>Cotización para ${cotizacion.nombre} ${cotizacion.apellido}</h2>
         <p>Marca: ${cotizacion.marca}</p>
         <p>Modelo: ${cotizacion.modelo}</p>
-        <p>Año: ${cotizacion.año}</p>
+        <p>Año: ${cotizacion.anio}</p>
         <p>Cobertura Contra Terceros: $${coberturas.coberturaTerceros.toFixed(2)}</p>
         <p>Cobertura Básica: $${coberturas.coberturaBasica.toFixed(2)}</p>
         <p>Cobertura Todo Riesgo: $${coberturas.coberturaTodoRiesgo.toFixed(2)}</p>`;
@@ -94,8 +94,39 @@ function guardarCotizacion(cotizacion, coberturas) {
     localStorage.setItem('cotizaciones', JSON.stringify(cotizacionesGuardadas));
 }
 
-function mostrarCotizacionesGuardadas(nombre, apellido) {
-    const cotizacionesGuardadas = JSON.parse(localStorage.getItem('cotizaciones')) || [];
+// Función para manejar el botón Solicitar Ahora
+const manejarSolicitarAhora = () => {
+    // Mostrar un mensaje de confirmación usando SweetAlert
+    Swal.fire({
+        title: 'Cotización Exitosa!',
+        text: 'Te estaremos contactando a la brevedad por e-mail para finalizar la gestión.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+};
+
+// Manejador del evento para el botón "Solicitar Ahora"
+document.getElementById('solicitarAhora').addEventListener('click', manejarSolicitarAhora);
+
+// Función para obtener cotizaciones guardadas de manera asíncrona
+async function obtenerCotizacionesGuardadas() {
+    return new Promise((resolve) => {
+        const cotizacionesGuardadas = JSON.parse(localStorage.getItem('cotizaciones')) || [];
+        resolve(cotizacionesGuardadas);
+    });
+}
+
+// Manejador del evento para mostrar cotizaciones guardadas
+document.getElementById('mostrarCotizaciones').addEventListener('click', async function () {
+    const nombre = document.getElementById('nombre').value;
+    const apellido = document.getElementById('apellido').value;
+
+    const cotizacionesGuardadas = await obtenerCotizacionesGuardadas();
+    mostrarCotizaciones(cotizacionesGuardadas, nombre, apellido);
+});
+
+// Función para mostrar cotizaciones
+function mostrarCotizaciones(cotizacionesGuardadas, nombre, apellido) {
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML += `<h3>Cotizaciones Guardadas:</h3><ul>`;
 
@@ -108,7 +139,7 @@ function mostrarCotizacionesGuardadas(nombre, apellido) {
         resultDiv.innerHTML += `<li>No hay cotizaciones guardadas para ${nombre} ${apellido}.</li>`;
     } else {
         cotizacionesFiltradas.forEach(cot => {
-            resultDiv.innerHTML += `<li>${cot.nombre} ${cot.apellido} - ${cot.marca} ${cot.modelo} (${cot.año})</li>`;
+            resultDiv.innerHTML += `<li>${cot.nombre} ${cot.apellido} - ${cot.marca} ${cot.modelo} (${cot.anio})</li>`;
         });
     }
     resultDiv.innerHTML += `</ul>`;
@@ -122,28 +153,27 @@ document.getElementById('insuranceForm').addEventListener('submit', function (ev
     const apellido = document.getElementById('apellido').value;
     const marca = document.getElementById('marca').value;
     const modelo = document.getElementById('modelo').value;
-    const año = parseInt(document.getElementById('año').value, 10);
+    const anio = parseInt(document.getElementById('anio').value, 10);
 
     const modelosPermitidos = new ModelosPermitidos();
 
-    if (!validarDatos(nombre, apellido, marca, modelo, año)) return;
+    if (!validarDatos(nombre, apellido, marca, modelo, anio)) return;
 
     if (!modelosPermitidos.esModeloValido(marca, modelo)) {
         mostrarError('El modelo ingresado no es válido. Por favor, ingrese un modelo permitido.');
         return;
     }
 
-    const cotizacion = new Cotizacion(nombre, apellido, marca, modelo, año);
+    const cotizacion = new Cotizacion(nombre, apellido, marca, modelo, anio);
     const coberturas = cotizacion.calcularCoberturas(100000); // precioBase
 
     mostrarResultado(cotizacion, coberturas);
     guardarCotizacion(cotizacion, coberturas);
-    mostrarCotizacionesGuardadas(nombre, apellido); // Pasar nombre y apellido para filtrar
 });
 
 // Función para validar datos ingresados
-function validarDatos(nombre, apellido, marca, modelo, año) {
-    if (!nombre || !apellido || !marca || !modelo || isNaN(año) || año < 1900 || año > new Date().getFullYear()) {
+function validarDatos(nombre, apellido, marca, modelo, anio) {
+    if (!nombre || !apellido || !marca || !modelo || isNaN(anio) || anio < 1900 || anio > new Date().getFullYear()) {
         mostrarError('Por favor, complete todos los campos correctamente.');
         return false;
     }
@@ -177,4 +207,3 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
-

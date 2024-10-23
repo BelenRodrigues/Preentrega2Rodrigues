@@ -81,9 +81,10 @@ nav a:hover {
     padding: 100px 0;
 }
 
-.color1{
-    color:#E3F2FD;
+.color1 {
+    color: #E3F2FD;
 }
+
 .hero-content {
     max-width: 600px;
     margin: 0 auto;
@@ -145,35 +146,35 @@ nav a:hover {
 
 /* Estilo para la sección CTA */
 #cta {
-    background-color: #b3f7db; 
-    color: #fff; 
-    padding: 40px 20px; 
-    text-align: center; 
-    margin:20px;
+    background-color: #b3f7db;
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+    margin: 20px;
 }
 
 /* Estilo para el contenedor dentro de la sección */
 .containercotizador1 {
     background-color: #4CAF50;
-    max-width: 50rem; 
-    margin: 0 auto; 
+    max-width: 50rem;
+    margin: 0 auto;
     padding: 20px;
-    border-radius: 8px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Estilo para el título h2 */
 #cta h2 {
-    font-size: 2.5em; 
+    font-size: 2.5em;
     margin: 0;
-    font-weight: bold; 
-    line-height: 1.2; 
+    font-weight: bold;
+    line-height: 1.2;
 }
 
 /* Estilo para el párrafo */
 #cta p {
-    font-size: 1.2em; 
-    margin-top: 10px; 
+    font-size: 1.2em;
+    margin-top: 10px;
     margin-bottom: 0;
 }
 
@@ -185,7 +186,7 @@ nav a:hover {
     padding: 1.25rem;
 }
 
-.fondo-imagen p{
+.fondo-imagen p {
     color: #fff;
     font-weight: bolder;
     font-family: cursive;
@@ -207,7 +208,7 @@ nav a:hover {
 
 /* Ajustar el tamaño del h1 */
 .containercotizador h1 {
-    font-size: 3.5rem; 
+    font-size: 3.5rem;
     text-decoration: underline;
     margin: 20px;
     color: #003366;
@@ -219,9 +220,9 @@ nav a:hover {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    width: 100%; 
-    max-width: 600px; 
-    margin: 20px auto; 
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
 }
 
 /* Estilo para los fieldsets */
@@ -275,43 +276,77 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+/* Estilo para el botón de mostrar cotizaciones */
+button#mostrarCotizaciones {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+/* Efecto al pasar el ratón sobre el botón */
+button#mostrarCotizaciones:hover {
+    background-color: #218838;
+}
+
+#solicitarAhora {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#solicitarAhora:hover {
+    background-color: #0056b3;
+}
+
 /* Estilo para el contenedor de resultados */
 #result {
-    background-color: #ffffff; 
-    padding: 30px; 
+    background-color: #ffffff;
+    padding: 30px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); 
-    width: 100%; 
-    max-width: 700px; 
-    margin: 20px auto; 
-    border: 1px solid #ddd; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 700px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
 }
 
 /* Estilo para el encabezado de resultados */
 #result h2 {
     font-size: 1.8rem;
-    color: #003366; 
+    color: #003366;
     margin-bottom: 15px;
-    border-bottom: 3px solid #003366; 
+    border-bottom: 3px solid #003366;
     padding-bottom: 10px;
-    text-align: center; 
+    text-align: center;
 }
 
 /* Estilo para los resultados individuales */
 .result-item {
     padding: 15px;
-    border-bottom: 1px solid #ddd; 
-    transition: background-color 0.3s; 
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
 }
 
 /* Efecto hover para resultados individuales */
 .result-item:hover {
-    background-color: #f1f1f1; 
+    background-color: #f1f1f1;
 }
 
 /* Estilo para el mensaje de error dentro del contenedor de resultados */
 #error {
-    color: #ff0000; 
+    color: #ff0000;
     font-weight: bold;
     margin-top: 10px;
 }
@@ -323,7 +358,7 @@ button[type="submit"]:hover {
     color: #003366;
     border-bottom: 2px solid #003366;
     padding-bottom: 5px;
-    text-align: center; 
+    text-align: center;
 }
 
 
@@ -333,7 +368,7 @@ button[type="submit"]:hover {
     color: #003366;
     margin-top: 20px;
     margin-bottom: 10px;
-    text-decoration: underline; /
+    text-decoration: underline;/
 }
 
 
@@ -344,18 +379,18 @@ footer {
     justify-content: center;
     align-items: center;
     background-color: #003366d2;
-    color: #FFF; 
-    padding: 20px; 
-    width: 100%; 
+    color: #FFF;
+    padding: 20px;
+    width: 100%;
     margin-top: 1.25rem;
     position: relative;
     overflow: hidden;
-    border-radius: 10px; 
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    opacity: 1; 
-    transform: translateY(0); 
-    transition: none; 
-    text-align: center; 
+    opacity: 1;
+    transform: translateY(0);
+    transition: none;
+    text-align: center;
 }
 
 /* Estilo para el texto de copyright */
@@ -366,23 +401,23 @@ footer {
     font-style: oblique;
     color: white;
     margin: 0;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); 
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 /* Animación para los íconos de redes sociales */
 .redes-sociales img {
     width: 2.5rem;
-    height: 2.5rem; 
+    height: 2.5rem;
     padding: 5px;
-    border-radius: 50%; 
+    border-radius: 50%;
     transition: transform 0.3s, filter 0.3s, box-shadow 0.3s, background-color 0.3s;
     background-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Efecto de escala, rotación y cambio de fondo en los íconos */
 .redes-sociales img:hover {
-    transform: scale(1.2) rotate(15deg); 
+    transform: scale(1.2) rotate(15deg);
     filter: brightness(1.3);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4); 
-    background-color: rgba(255, 255, 255, 0.4); 
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    background-color: rgba(255, 255, 255, 0.4);
 }
